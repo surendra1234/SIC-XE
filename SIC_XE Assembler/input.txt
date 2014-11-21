@@ -1,0 +1,55 @@
+COPY   START  4000
+FIRST  STL    RETADR
+       LDB    #LENGTH
+       BASE   LENGTH
+       +JSUB  RDREC
+       LDA    LENGTH
+       COMP   #0
+       JEQ    ENDFILL
+       LDS    LENGTH
+       LDX    #0
+RLOOP  COMPR  X,S
+       JEQ    EXIT
+       LDA    BUFFER,X
+       LDT    #1
+       ADDR   X,T
+       LDT    BUFFER,LENGTH-X
+       COMPR  A,T
+       JEQ    RLOOP
+       LDA    #0
+       JSUB   FINAL
+EXIT   LDA    #1
+FINAL  STA    PALIN
+       +JSUB  WRREC
+       J      @RETADR
+RETADR RESW   1
+LENGTH RESW   1
+BUFFER RESB   4096
+PALIN RESW   1
+FINAL  RESW   1
+.
+.      SUBROUTINE TO READ RECORD INTO BUFFER
+.
+RDREC  CLEAR   X
+       CLEAR   A
+       CLEAR   S
+       +LDT    #4096
+RLOOP  TD      INPUT
+       RD      INPUT
+       COMPR   A,S
+       JEQ     EXIT
+       STCH    BUFFER,X
+       TIXR    T
+       JLT     RLOOP
+EXIT   STX     LENGTH
+       RSUB
+INPUT  BYTE    X'F1'
+.
+.      SUBROUTINE TO WRITE RECORD INTO BUFFER
+.
+WRREC  TD     OUTPUT
+       JEQ    WRREC
+       LDA    PALIN       WD     OUTPUT
+       RSUB
+OUTPUT BYTE   X'05'
+       END    FIRST

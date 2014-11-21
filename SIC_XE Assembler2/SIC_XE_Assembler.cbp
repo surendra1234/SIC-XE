@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="SIC_XE_Assembler" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="default">
+				<Option output="SIC_XE_Assembler" prefix_auto="1" extension_auto="1" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+			</Target>
+		</Build>
+		<Unit filename="add_hex.h" />
+		<Unit filename="Assembler.cpp" />
+		<Unit filename="hexfunc.h" />
+		<Unit filename="listing.h" />
+		<Unit filename="objectprog.h" />
+		<Unit filename="optab.h" />
+		<Unit filename="Pass1.h" />
+		<Unit filename="Pass2.h" />
+		<Unit filename="search_op.h" />
+		<Unit filename="subtract_hex.h" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

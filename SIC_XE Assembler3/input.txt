@@ -1,0 +1,47 @@
+COPY   START  1000
+FIRST  STL    RETADR
+       +JSUB  RDREC
+       LDX    #0
+       LDT    N
+       LDA    #0
+       STA    ALPHA
+       LDA    #1
+       STA    BETA
+ADDLP  LDS    ALPHA
+       LDA    BETA
+       STA    GAMMA
+       ADDR   S,A
+       STA    BETA
+       LDA    GAMMA
+       STA    ALPHA
+       TIXR   T
+       JLT    ADDLP
+       LDA    BETA
+       STA    FIBN
+       +JSUB  WRREC
+       J      @RETADR
+RETADR RESW   1
+N      RESW   1
+ALPHA  RESW   1
+BETA   RESW   1
+GAMMA  RESW   1
+FIBN   RESW   1
+.
+.      SUBROUTINE TO READ RECORD INTO BUFFER
+.
+RDREC  TD     INPUT
+       JEQ    RDREC
+       RD     INPUT
+       STA    N
+       RSUB
+INPUT  BYTE   X'F1'
+.
+.      SUBROUTINE TO WRITE RECORD INTO BUFFER
+.
+WRREC  TD     OUTPUT
+       JEQ    WRREC
+       LDA    FIBN
+       WD     OUTPUT
+       RSUB
+OUTPUT BYTE   X'05'
+       END    FIRST
